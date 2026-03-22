@@ -23,6 +23,8 @@ export default function StatsPanel({ stats, count }) {
     : avgConsumption <= 9 ? 'var(--yellow)'
     : 'var(--red)'
 
+  const costPerKm = totalKm > 0 && totalCost > 0 ? (totalCost / totalKm).toFixed(3) : null
+
   return (
     <div className="stats-grid">
       <StatCard
@@ -43,6 +45,12 @@ export default function StatsPanel({ stats, count }) {
         label="Gesamtkosten"
         value={totalCost > 0 ? totalCost.toFixed(2) : null}
         unit="€"
+      />
+      <StatCard
+        icon="📍"
+        label="Kosten / km"
+        value={costPerKm}
+        unit="€ / km"
       />
       <StatCard
         icon="🪣"

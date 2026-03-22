@@ -12,7 +12,7 @@ const EMPTY = {
   notFull: false,
 }
 
-export default function FillupForm({ onSave, initialValues = null, onCancel }) {
+export default function FillupForm({ onSave, initialValues = null, onCancel, lastOdometer = null }) {
   const editMode = !!initialValues
 
   const [form, setForm] = useState(() =>
@@ -53,6 +53,8 @@ export default function FillupForm({ onSave, initialValues = null, onCancel }) {
     if (!form.date) errs.date = 'Datum erforderlich'
     if (!form.odometer || isNaN(+form.odometer) || +form.odometer <= 0)
       errs.odometer = 'Gültiger km-Stand erforderlich'
+    else if (!editMode && lastOdometer !== null && +form.odometer <= lastOdometer)
+      errs.odometer = `Muss größer als letzter km-Stand sein (${lastOdometer.toLocaleString('de-DE')} km)`
     if (!form.liters || isNaN(+form.liters) || +form.liters <= 0)
       errs.liters = 'Liter erforderlich'
     if (!form.pricePerLiter || isNaN(+form.pricePerLiter) || +form.pricePerLiter <= 0)
@@ -94,7 +96,8 @@ export default function FillupForm({ onSave, initialValues = null, onCancel }) {
 
           <div className="form-group">
             <label>Kilometerstand (km)</label>
-            <input id="input-odometer" type="number" min="0" step="1" placeholder="z. B. 45230"
+            <input id="input-odometer" type="number" min="0" step="1"
+              placeholder={lastOdometer ? `Letzter: ${lastOdometer.toLocaleString('de-DE')}` : 'z. B. 45230'}
               value={form.odometer} onChange={e => set('odometer', e.target.value)} />
             {errors.odometer && <span className="form-error">{errors.odometer}</span>}
           </div>

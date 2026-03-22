@@ -4,6 +4,8 @@ import FillupForm from './components/FillupForm'
 import FillupList from './components/FillupList'
 import StatsPanel from './components/StatsPanel'
 import ConsumptionChart from './components/ConsumptionChart'
+import PriceChart from './components/PriceChart'
+import DataManager from './components/DataManager'
 import './index.css'
 
 const TABS = [
@@ -15,7 +17,10 @@ const TABS = [
 export default function App() {
   const [activeTab, setActiveTab] = useState('erfassen')
   const [editEntry, setEditEntry] = useState(null)
-  const { fillups, addFillup, deleteFillup, updateFillup, stats } = useFuelStore()
+  const { fillups, addFillup, deleteFillup, updateFillup, importFillups, stats } = useFuelStore()
+
+  // Last odometer reading for validation
+  const lastOdometer = fillups.length > 0 ? fillups[fillups.length - 1].odometer : null
 
   const handleAdd = (entry) => {
     addFillup(entry)
@@ -58,7 +63,7 @@ export default function App() {
       <main className="main">
         {activeTab === 'erfassen' && (
           <div className="section-gap">
-            <FillupForm onSave={handleAdd} />
+            <FillupForm onSave={handleAdd} lastOdometer={lastOdometer} />
             {fillups.length > 0 && (
               <div className="card" style={{ padding: '1rem 1.5rem' }}>
                 <p className="card-title">💡 Übersicht</p>
@@ -78,6 +83,8 @@ export default function App() {
           <div className="section-gap">
             <StatsPanel stats={stats} count={fillups.length} />
             <ConsumptionChart fillups={fillups} />
+            <PriceChart fillups={fillups} />
+            <DataManager fillups={fillups} onImport={importFillups} />
           </div>
         )}
       </main>

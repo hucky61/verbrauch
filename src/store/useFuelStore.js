@@ -40,6 +40,13 @@ export function useFuelStore() {
     })
   }, [])
 
+  const importFillups = useCallback((entries) => {
+    const sorted = entries
+      .map(e => ({ ...e, id: e.id ?? Date.now() + Math.random() }))
+      .sort((a, b) => new Date(a.date) - new Date(b.date) || a.odometer - b.odometer)
+    setFillups(sorted)
+  }, [])
+
   // Derive consumption for each entry (needs the previous entry's odometer)
   // Skip consumption for entries marked notFull, and for the entry right after one,
   // because we cannot know the real starting fuel level after a partial fill.
@@ -74,6 +81,7 @@ export function useFuelStore() {
     addFillup,
     deleteFillup,
     updateFillup,
+    importFillups,
     stats: { avgConsumption, totalCost, totalLiters, totalKm, avgPricePerLiter },
   }
 }
