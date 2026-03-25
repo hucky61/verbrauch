@@ -544,3 +544,47 @@ tbody td {
   color: var(--text-primary);
   border-color: var(--border-focus);
 }
+
+/* ── Not-Full Checkbox Row ───────────────────────────────────── */
+.not-full-row {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.not-full-checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.not-full-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.not-full-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+/* ── Delta km badge ──────────────────────────────────────────── */
+.delta-km {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* ── Utility ─────────────────────────────────────────────────── */
+.text-muted {
+  color: var(--text-muted);
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const today = () => new Date().toISOString().slice(0, 10)
+const getToday = () => new Date().toISOString().slice(0, 10)
 
 const EMPTY = {
   date: '',
@@ -26,7 +26,7 @@ export default function FillupForm({ onSave, initialValues = null, onCancel, las
           fuelType: initialValues.fuelType,
           notFull: initialValues.notFull ?? false,
         }
-      : { ...EMPTY, date: today() }
+      : { ...EMPTY, date: getToday() }
   )
   const [errors, setErrors] = useState({})
 
@@ -78,7 +78,7 @@ export default function FillupForm({ onSave, initialValues = null, onCancel, las
     })
 
     if (!editMode) {
-      setForm({ ...EMPTY, date: today() })
+      setForm({ ...EMPTY, date: getToday() })
       setErrors({})
     }
   }
@@ -135,17 +135,17 @@ export default function FillupForm({ onSave, initialValues = null, onCancel, las
           </div>
         </div>
 
-        <div style={{ marginTop: '1rem', padding: '0.85rem 1rem', border: '1px solid var(--border)', borderRadius: 'var(--radius-sm)', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div className="not-full-row">
           <input
             id="input-not-full"
             type="checkbox"
+            className="not-full-checkbox"
             checked={form.notFull}
             onChange={e => setForm(prev => ({ ...prev, notFull: e.target.checked }))}
-            style={{ width: '18px', height: '18px', accentColor: 'var(--accent)', cursor: 'pointer', flexShrink: 0 }}
           />
           <div>
-            <div style={{ fontSize: '0.9rem', fontWeight: 500, color: 'var(--text-primary)' }}>Nicht voll getankt</div>
-            <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.1rem' }}>Kein Verbrauch wird für diesen Eintrag berechnet.</div>
+            <div className="not-full-label">Nicht voll getankt</div>
+            <div className="not-full-hint">Kein Verbrauch wird für diesen Eintrag berechnet.</div>
           </div>
         </div>
 

@@ -27,7 +27,9 @@ export default function FillupList({ fillups, onDelete, onEdit }) {
     )
   }
 
+  // Keep ascending order for delta calculation, display in reverse
   const sorted = [...fillups].reverse()
+  const totalCount = fillups.length
 
   return (
     <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -37,6 +39,7 @@ export default function FillupList({ fillups, onDelete, onEdit }) {
             <tr>
               <th>Datum</th>
               <th>km-Stand</th>
+              <th>Δ km</th>
               <th>Liter</th>
               <th>€/L</th>
               <th>Gesamt</th>
@@ -46,10 +49,16 @@ export default function FillupList({ fillups, onDelete, onEdit }) {
             </tr>
           </thead>
           <tbody>
-            {sorted.map((f) => (
+            {sorted.map((f, i) => {
+              // i=0 is the newest entry; ascending index = totalCount-1-i
+              const ascIdx = totalCount - 1 - i
+              const prev = fillups[ascIdx - 1]
+              const deltaKm = prev ? f.odometer - prev.odometer : null
+              return (
               <tr key={f.id}>
                 <td>{new Date(f.date + 'T12:00:00').toLocaleDateString('de-DE')}</td>
                 <td>{f.odometer.toLocaleString('de-DE')} km</td>
+                <td>{deltaKm !== null ? <span className="delta-km">+{deltaKm.toLocaleString('de-DE')}</span> : <span className="text-muted">–</span>}</td>
                 <td>{f.liters.toFixed(2)} L</td>
                 <td>{f.pricePerLiter.toFixed(3)} €</td>
                 <td>{f.totalPrice.toFixed(2)} €</td>
@@ -72,7 +81,7 @@ export default function FillupList({ fillups, onDelete, onEdit }) {
                   </button>
                 </td>
               </tr>
-            ))}
+            )})
           </tbody>
         </table>
       </div>
