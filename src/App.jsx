@@ -17,6 +17,7 @@ const TABS = [
 export default function App() {
   const [activeTab, setActiveTab] = useState('erfassen')
   const [editEntry, setEditEntry] = useState(null)
+  const [menuOpen, setMenuOpen] = useState(false)
   const { fillups, addFillup, deleteFillup, updateFillup, importFillups, stats } = useFuelStore()
 
   // Last odometer reading for validation
@@ -46,13 +47,24 @@ export default function App() {
             <div className="header-subtitle">Kraftstoffverbrauch-Tracker</div>
           </div>
         </div>
-        <nav className="tabs">
+        <button 
+          className="menu-toggle-btn"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menü umschalten"
+        >
+          {menuOpen ? '✕' : '☰'}
+        </button>
+
+        <nav className={`tabs ${menuOpen ? 'open' : ''}`}>
           {TABS.map(tab => (
             <button
               key={tab.id}
               id={`tab-${tab.id}`}
               className={`tab-btn${activeTab === tab.id ? ' active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+                setActiveTab(tab.id)
+                setMenuOpen(false)
+              }}
             >
               {tab.icon} {tab.label}
             </button>
