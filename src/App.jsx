@@ -9,9 +9,9 @@ import DataManager from './components/DataManager'
 import './index.css'
 
 const TABS = [
-  { id: 'erfassen',  label: 'Erfassen',   icon: '⛽' },
-  { id: 'verlauf',   label: 'Verlauf',    icon: '📋' },
-  { id: 'statistik', label: 'Statistik',  icon: '📊' },
+  { id: 'erfassen', label: 'Erfassen', icon: '⛽' },
+  { id: 'verlauf', label: 'Verlauf', icon: '📋' },
+  { id: 'statistik', label: 'Statistik', icon: '📊' },
 ]
 
 export default function App() {
@@ -42,7 +42,7 @@ export default function App() {
         <div className="header-brand">
           <span className="header-icon">🚗</span>
           <div>
-            <div className="header-title">Verbrauch</div>
+            <div className="header-title">Kfz-Verbrauch</div>
             <div className="header-subtitle">Kraftstoffverbrauch-Tracker</div>
           </div>
         </div>
